@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="AURA — premium animated sneaker store demo">
+<title>AURA — Step Into Motion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#090909;--card:#111;--soft:#181818;--text:#f7f7f2;--muted:#a8a8a2;--lime:#d8ff38;--red:#ff4d5a;--line:rgba(255,255,255,.1);--shadow:0 24px 70px rgba(0,0,0,.35)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+button,input{font:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.cursor{position:fixed;width:18px;height:18px;border:1px solid var(--lime);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference;transition:width .2s,height .2s}
+.progress{position:fixed;top:0;left:0;width:0;height:3px;background:var(--lime);z-index:10000}
+.noise{position:fixed;inset:0;pointer-events:none;opacity:.035;z-index:9000;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E")}
+header{position:fixed;top:0;left:0;right:0;z-index:1000;padding:18px 5%;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(9,9,9,.92),transparent);backdrop-filter:blur(10px)}
+.logo{font-family:"Space Grotesk";font-size:1.35rem;font-weight:700;letter-spacing:-.06em}.logo span{color:var(--lime)}
+nav{display:flex;gap:28px;font-size:.88rem;color:#ddd}nav a{transition:.25s}nav a:hover{color:var(--lime)}
+.header-actions{display:flex;gap:10px}.icon-btn{width:44px;height:44px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:#fff;border-radius:50%;display:grid;place-items:center;position:relative}.icon-btn:hover{border-color:var(--lime);transform:translateY(-2px)}
+.badge{position:absolute;right:-2px;top:-2px;background:var(--lime);color:#000;font-size:10px;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-weight:700}
+.hero{min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;padding:120px 7% 70px;position:relative;isolation:isolate}
+.hero:before{content:"";position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(216,255,56,.16),transparent 65%);right:8%;top:10%;z-index:-1;animation:pulse 5s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.12);opacity:.7}}
+.eyebrow{color:var(--lime);text-transform:uppercase;letter-spacing:.2em;font-size:.75rem;font-weight:700;margin-bottom:22px}
+.hero h1{font-family:"Space Grotesk";font-size:clamp(3.8rem,8vw,8rem);line-height:.83;letter-spacing:-.08em;max-width:800px}
+.hero h1 .outline{color:transparent;-webkit-text-stroke:1px #777}
+.hero-copy{max-width:520px;color:var(--muted);font-size:1.08rem;line-height:1.7;margin:28px 0}
+.cta{display:inline-flex;align-items:center;gap:12px;background:var(--lime);color:#080808;padding:15px 22px;border-radius:999px;font-weight:800;border:0;transition:.3s;box-shadow:0 0 0 0 rgba(216,255,56,.3)}
+.cta:hover{transform:translateY(-4px);box-shadow:0 15px 40px rgba(216,255,56,.2)}
+.hero-visual{position:relative;display:grid;place-items:center;min-height:540px}
+.orbit{position:absolute;width:420px;height:420px;border:1px solid rgba(255,255,255,.12);border-radius:50%;animation:spin 18s linear infinite}.orbit:after{content:"";position:absolute;width:10px;height:10px;background:var(--lime);border-radius:50%;top:5px;left:50%;box-shadow:0 0 25px var(--lime)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero-shoe{width:min(92%,620px);filter:drop-shadow(0 35px 35px rgba(0,0,0,.55));transform:rotate(-7deg);animation:float 4.5s ease-in-out infinite;position:relative;z-index:2}
+@keyframes float{50%{transform:rotate(-2deg) translateY(-18px)}}
+.floating-tag{position:absolute;background:rgba(17,17,17,.8);border:1px solid var(--line);padding:12px 15px;border-radius:15px;backdrop-filter:blur(12px);z-index:3;animation:tagFloat 3.5s ease-in-out infinite}
+.tag1{right:0;top:25%}.tag2{left:0;bottom:22%;animation-delay:1s}@keyframes tagFloat{50%{transform:translateY(-10px)}}
+.marquee{overflow:hidden;border-block:1px solid var(--line);padding:18px 0;white-space:nowrap}.track{display:inline-block;animation:marquee 22s linear infinite;font-family:"Space Grotesk";font-size:1.1rem;letter-spacing:.12em}.track span{margin:0 30px;color:var(--lime)}@keyframes marquee{to{transform:translateX(-50%)}}
+.section{padding:110px 7%}.section-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:40px}.section h2{font-family:"Space Grotesk";font-size:clamp(2.5rem,5vw,5rem);letter-spacing:-.07em;line-height:.95}.muted{color:var(--muted)}
+.filters{display:flex;gap:9px;flex-wrap:wrap}.filter{border:1px solid var(--line);background:transparent;color:#bbb;padding:10px 16px;border-radius:999px}.filter.active,.filter:hover{background:var(--lime);color:#000;border-color:var(--lime)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.product{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;position:relative;transition:.4s}.product:hover{transform:translateY(-10px);border-color:rgba(216,255,56,.5);box-shadow:var(--shadow)}.product-media{height:310px;overflow:hidden;position:relative;background:#ddd}.product-media img{width:100%;height:100%;object-fit:cover;transition:.6s}.product:hover img{transform:scale(1.08) rotate(1deg)}.heart{position:absolute;right:12px;top:12px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.45);color:white}.heart.liked{color:#ff6670;background:#fff}.product-info{padding:18px}.product-info h3{font-family:"Space Grotesk";font-size:1.05rem}.meta{display:flex;justify-content:space-between;margin-top:8px;color:var(--muted);font-size:.9rem}.add{margin-top:16px;width:100%;border:1px solid var(--line);background:#1a1a1a;color:white;padding:12px;border-radius:12px;transition:.25s}.add:hover{background:var(--lime);color:#000}
+.story{display:grid;grid-template-columns:1fr 1fr;gap:25px;align-items:stretch}.story-card{border:1px solid var(--line);border-radius:28px;overflow:hidden;min-height:500px;position:relative;background:var(--soft)}.story-card img{width:100%;height:100%;object-fit:cover;opacity:.72;transition:.7s}.story-card:hover img{transform:scale(1.05)}.story-text{position:absolute;inset:auto 30px 30px;z-index:2}.story-text h3{font-family:"Space Grotesk";font-size:2.3rem;letter-spacing:-.05em}.story-copy{padding:40px;border:1px solid var(--line);border-radius:28px;background:linear-gradient(145deg,#161616,#0c0c0c);display:flex;flex-direction:column;justify-content:center}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:30px}.stat{padding:22px;border:1px solid var(--line);border-radius:18px}.stat b{font-family:"Space Grotesk";font-size:2rem;color:var(--lime)}
+.banner{margin:0 7% 110px;padding:60px;border-radius:30px;background:var(--lime);color:#080808;position:relative;overflow:hidden}.banner:after{content:"AURA";position:absolute;right:-20px;bottom:-70px;font:900 12rem/1 "Space Grotesk";opacity:.08}.banner h2{font-family:"Space Grotesk";font-size:clamp(2.5rem,6vw,6rem);letter-spacing:-.07em;max-width:700px}.banner p{margin:15px 0 25px;max-width:560px}.dark-btn{background:#080808;color:#fff;border:0;padding:14px 20px;border-radius:999px;font-weight:800}
+footer{border-top:1px solid var(--line);padding:60px 7%;display:flex;justify-content:space-between;gap:30px;color:var(--muted)}footer strong{color:#fff;font-family:"Space Grotesk"}
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s ease}.reveal.show{opacity:1;transform:none}
+.drawer{position:fixed;inset:0;z-index:5000;background:rgba(0,0,0,.65);backdrop-filter:blur(8px);display:none}.drawer.open{display:block}.cart-panel{position:absolute;right:0;top:0;height:100%;width:min(440px,100%);background:#101010;border-left:1px solid var(--line);padding:28px;transform:translateX(100%);transition:.4s;display:flex;flex-direction:column}.drawer.open .cart-panel{transform:none}.cart-head{display:flex;justify-content:space-between;align-items:center}.cart-items{flex:1;overflow:auto;margin:25px 0}.cart-item{display:grid;grid-template-columns:75px 1fr auto;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);align-items:center}.cart-item img{width:75px;height:75px;object-fit:cover;border-radius:12px}.remove{background:none;border:0;color:#888}.total{display:flex;justify-content:space-between;font-size:1.2rem;margin-bottom:15px}.checkout{width:100%;padding:15px;border:0;background:var(--lime);font-weight:800;border-radius:12px}
+.toast{position:fixed;left:50%;bottom:25px;transform:translate(-50%,30px);opacity:0;background:#fff;color:#000;padding:13px 18px;border-radius:999px;font-weight:700;z-index:7000;transition:.35s}.toast.show{opacity:1;transform:translate(-50%,0)}
+.search-modal{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:6000;display:none;padding:100px 8%}.search-modal.open{display:block}.search-box{max-width:900px;margin:auto}.search-box input{width:100%;font-size:clamp(2rem,6vw,5rem);background:none;border:0;border-bottom:1px solid #555;color:#fff;outline:0;padding:15px 0;font-family:"Space Grotesk"}.search-results{margin-top:30px;color:#bbb}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}.hero{grid-template-columns:1fr}.hero-visual{min-height:430px}.story{grid-template-columns:1fr}.section-head{align-items:start;flex-direction:column}}
+@media(max-width:600px){nav{display:none}.hero{padding-inline:5%;padding-top:110px}.hero h1{font-size:3.8rem}.hero-visual{min-height:340px}.orbit{width:280px;height:280px}.section{padding:80px 5%}.grid{grid-template-columns:1fr 1fr;gap:10px}.product-media{height:220px}.product-info{padding:13px}.product-info h3{font-size:.9rem}.meta{font-size:.78rem}.banner{margin-inline:5%;padding:35px}.story-card{min-height:380px}.stats{grid-template-columns:1fr}.cursor{display:none}footer{flex-direction:column}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div><div class="progress" id="progress"></div><div class="noise"></div>
+
+<header>
+  <a class="logo" href="#">AU<span>R</span>A.</a>
+  <nav><a href="#shop">Shop</a><a href="#story">Story</a><a href="#drop">Drop</a><a href="#contact">Contact</a></nav>
+  <div class="header-actions">
+    <button class="icon-btn" id="searchBtn" aria-label="Search">⌕</button>
+    <button class="icon-btn" id="cartBtn" aria-label="Cart">🛒<span class="badge" id="cartCount">0</span></button>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-copy-block reveal">
+    <div class="eyebrow">New season / 2026</div>
+    <h1>MOVE<br><span class="outline">LOUD.</span><br>WALK <span style="color:var(--lime)">AURA.</span></h1>
+    <p class="hero-copy">Performance-built silhouettes with street-level attitude. A fictional premium sneaker label made for this client presentation.</p>
+    <a href="#shop" class="cta">Explore the collection <span>↗</span></a>
+  </div>
+  <div class="hero-visual reveal">
+    <div class="orbit"></div>
+    <div class="floating-tag tag1"><small>DROP 01</small><br><b>LIMITED / 400 PAIRS</b></div>
+    <div class="floating-tag tag2"><small>ENGINEERED FOR</small><br><b>EVERYDAY MOTION</b></div>
+    <img class="hero-shoe" src="https://images.pexels.com/photos/16947159/pexels-photo-16947159.jpeg?cs=srgb&dl=pexels-oguz-kagan-cevik-247212801-16947159.jpg&fm=jpg" alt="Colorful sneaker">
+  </div>
+</section>
+
+<div class="marquee"><div class="track">AURA MOTION <span>✦</span> NEW DROP <span>✦</span> RUN THE CITY <span>✦</span> AURA MOTION <span>✦</span> NEW DROP <span>✦</span> RUN THE CITY <span>✦</span></div></div>
+
+<section class="section" id="shop">
+  <div class="section-head reveal">
+    <div><div class="eyebrow">The collection</div><h2>FIND YOUR<br>PAIR.</h2></div>
+    <div class="filters">
+      <button class="filter active" data-filter="all">All</button><button class="filter" data-filter="running">Running</button><button class="filter" data-filter="street">Street</button><button class="filter" data-filter="classic">Classic</button>
+    </div>
+  </div>
+  <div class="grid" id="productGrid"></div>
+</section>
+
+<section class="section" id="story">
+  <div class="story reveal">
+    <div class="story-card">
+      <img src="https://images.pexels.com/photos/32574002/pexels-photo-32574002.jpeg?cs=srgb&dl=pexels-nobleseed-32574002.jpg&fm=jpg" alt="Black and red sneaker">
+      <div class="story-text"><div class="eyebrow">Built different</div><h3>DESIGNED TO<br>GET NOTICED.</h3></div>
+    </div>
+    <div class="story-copy">
+      <div class="eyebrow">Why AURA</div>
+      <h2>Comfort is the base. <span style="color:var(--lime)">Attitude is the finish.</span></h2>
+      <p class="muted" style="margin-top:20px;line-height:1.8">A demo brand concept built to prove what a modern footwear client could have: bold art direction, product discovery, animated interactions and a shopping experience that feels alive.</p>
+      <div class="stats"><div class="stat"><b>24h</b><br><span class="muted">Fast dispatch</span></div><div class="stat"><b>30d</b><br><span class="muted">Easy returns</span></div><div class="stat"><b>4.9</b><br><span class="muted">Demo rating</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="banner reveal" id="drop">
+  <div class="eyebrow" style="color:#111">AURA DROP 01</div>
+  <h2>THE STREET<br>IS YOUR RUNWAY.</h2>
+  <p>Limited demo collection. Add a pair to the cart and experience the interaction.</p>
+  <a class="dark-btn" href="#shop">Shop the drop →</a>
+</section>
+</main>
+
+<footer id="contact">
+  <div><strong>AURA.</strong><br>Move loud. Walk AURA.</div>
+  <div>Demo storefront • Replace brand, products & details after client approval.</div>
+</footer>
+
+<div class="drawer" id="drawer">
+  <aside class="cart-panel">
+    <div class="cart-head"><h2>Your bag</h2><button class="icon-btn" id="closeCart">×</button></div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="total"><span>Total</span><b id="total">Rs. 0</b></div>
+    <button class="checkout" id="checkout">Continue to checkout</button>
+  </aside>
+</div>
+
+<div class="search-modal" id="searchModal">
+  <div class="search-box"><button class="icon-btn" id="closeSearch">×</button><input id="searchInput" placeholder="Search sneakers..."><div class="search-results" id="searchResults">Try “runner”, “street”, or “classic”.</div></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const products=[
+{name:"AURA Pulse X",cat:"running",price:12999,img:"https://images.pexels.com/photos/1456731/pexels-photo-1456731.jpeg?cs=srgb&dl=pexels-craytive-1456731.jpg&fm=jpg"},
+{name:"AURA Neon Shift",cat:"street",price:14999,img:"https://images.pexels.com/photos/16947159/pexels-photo-16947159.jpeg?cs=srgb&dl=pexels-oguz-kagan-cevik-247212801-16947159.jpg&fm=jpg"},
+{name:"AURA Ice Run",cat:"running",price:11999,img:"https://images.pexels.com/photos/11324525/pexels-photo-11324525.jpeg?cs=srgb&dl=pexels-hurrahsuhail-11324525.jpg&fm=jpg"},
+{name:"AURA Crimson",cat:"street",price:13999,img:"https://images.pexels.com/photos/32574002/pexels-photo-32574002.jpeg?cs=srgb&dl=pexels-nobleseed-32574002.jpg&fm=jpg"},
+{name:"AURA Blue Force",cat:"classic",price:15999,img:"https://images.pexels.com/photos/18681255/pexels-photo-18681255.jpeg?cs=srgb&dl=pexels-aalsaibaie-18681255.jpg&fm=jpg"},
+{name:"AURA Spectrum",cat:"street",price:16999,img:"https://images.pexels.com/photos/2529147/pexels-photo-2529147.jpeg?cs=srgb&dl=pexels-melvin-buezo-1253763-2529147.jpg&fm=jpg"},
+{name:"AURA Core White",cat:"classic",price:10999,img:"https://images.pexels.com/photos/11324525/pexels-photo-11324525.jpeg?cs=srgb&dl=pexels-hurrahsuhail-11324525.jpg&fm=jpg"},
+{name:"AURA Night Runner",cat:"running",price:15499,img:"https://images.pexels.com/photos/32574002/pexels-photo-32574002.jpeg?cs=srgb&dl=pexels-nobleseed-32574002.jpg&fm=jpg"}
+];
+let cart=[];
+const grid=document.getElementById("productGrid"),cartItems=document.getElementById("cartItems"),count=document.getElementById("cartCount"),total=document.getElementById("total"),toast=document.getElementById("toast");
+
+function money(n){return "Rs. "+n.toLocaleString("en-PK")}
+function render(list=products){
+ grid.innerHTML=list.map((p,i)=>`<article class="product reveal show">
+ <div class="product-media"><img src="${p.img}" alt="${p.name}" loading="lazy"><button class="heart" data-like="${i}">♡</button></div>
+ <div class="product-info"><h3>${p.name}</h3><div class="meta"><span>${p.cat}</span><b>${money(p.price)}</b></div><button class="add" data-add="${i}">Add to bag +</button></div></article>`).join("");
+ grid.querySelectorAll("[data-add]").forEach(b=>b.onclick=()=>add(+b.dataset.add));
+ grid.querySelectorAll("[data-like]").forEach(b=>b.onclick=()=>{b.classList.toggle("liked");b.textContent=b.classList.contains("liked")?"♥":"♡";showToast(b.classList.contains("liked")?"Added to wishlist":"Removed from wishlist")});
+}
+function add(i){cart.push(products[i]);renderCart();showToast(products[i].name+" added to your bag");document.getElementById("drawer").classList.add("open")}
+function renderCart(){
+ count.textContent=cart.length;
+ cartItems.innerHTML=cart.length?cart.map((p,i)=>`<div class="cart-item"><img src="${p.img}" alt=""><div><b>${p.name}</b><br><small class="muted">${money(p.price)}</small></div><button class="remove" data-remove="${i}">Remove</button></div>`).join(""):"<p class='muted'>Your bag is waiting for its first pair.</p>";
+ total.textContent=money(cart.reduce((s,p)=>s+p.price,0));
+ cartItems.querySelectorAll("[data-remove]").forEach(b=>b.onclick=()=>{cart.splice(+b.dataset.remove,1);renderCart()});
+}
+function showToast(t){toast.textContent=t;toast.classList.add("show");clearTimeout(window.tt);window.tt=setTimeout(()=>toast.classList.remove("show"),1800)}
+document.querySelectorAll(".filter").forEach(btn=>btn.onclick=()=>{document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));btn.classList.add("active");const f=btn.dataset.filter;render(f==="all"?products:products.filter(p=>p.cat===f))});
+document.getElementById("cartBtn").onclick=()=>document.getElementById("drawer").classList.add("open");
+document.getElementById("closeCart").onclick=()=>document.getElementById("drawer").classList.remove("open");
+document.getElementById("drawer").onclick=e=>{if(e.target.id==="drawer")e.currentTarget.classList.remove("open")};
+document.getElementById("checkout").onclick=()=>showToast(cart.length?"Demo checkout opened — client payment will be connected later.":"Add a pair first.");
+const sm=document.getElementById("searchModal"),si=document.getElementById("searchInput"),sr=document.getElementById("searchResults");
+document.getElementById("searchBtn").onclick=()=>{sm.classList.add("open");setTimeout(()=>si.focus(),50)};
+document.getElementById("closeSearch").onclick=()=>sm.classList.remove("open");
+si.oninput=()=>{const q=si.value.toLowerCase().trim();const hits=products.filter(p=>(p.name+" "+p.cat).toLowerCase().includes(q));sr.innerHTML=q?(hits.length?hits.map(p=>`<p style="padding:10px 0;border-bottom:1px solid #333">${p.name} — ${money(p.price)}</p>`).join(""):"No matching sneakers yet."):"Try “runner”, “street”, or “classic”."};
+window.addEventListener("scroll",()=>{const h=document.documentElement;document.getElementById("progress").style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+"%"});
+const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add("show")}),{threshold:.12});
+document.querySelectorAll(".reveal").forEach(e=>observer.observe(e));
+const cursor=document.getElementById("cursor");window.addEventListener("pointermove",e=>{cursor.style.left=e.clientX+"px";cursor.style.top=e.clientY+"px"});
+document.querySelectorAll("button,a").forEach(el=>{el.addEventListener("mouseenter",()=>{cursor.style.width="34px";cursor.style.height="34px"});el.addEventListener("mouseleave",()=>{cursor.style.width="18px";cursor.style.height="18px"})});
+render();renderCart();
+</script>
+</body>
+</html>
